@@ -39,9 +39,9 @@ res = args.resolution
 
 order = args.order
 xdmf = args.xdmf
-main_dir = f"results/{patient}/"
+main_dir = f"results/{patient}"
 if case.lower() == "base":
-    out_dir_names = [main_dir + case.lower() + "/"]
+    out_dir_names = [f"{main_dir}/base/"]
 elif case.lower() == "var1":
     out_dir_names = [f"{main_dir}/base/", f"{main_dir}/Res_FaghihSharp/", f"{main_dir}/Res_Pizzo/"]
 elif case.lower() == "var2":

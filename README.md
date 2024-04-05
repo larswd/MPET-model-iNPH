@@ -8,7 +8,10 @@ All simulations performed, with the exception of the subject specific data, can 
 - ```-res``` or ```--resolution```, sets the spatial resolution to be used. Default is 16, the high resolution 32-mesh can be found in the drive link above. 
 - ```--xdmf``` is an integer, either 0 or 1, specifying if you want XDMF files which will allow the user to inspect the pressure fields in 3D using for example paraview. 
 
-
+## How to generate figures
+The script ```xdmf_to_pvd.py``` can be run to export the xdmf files over to a paraview pvd file. To run this script, write 
+```python3 xdmf_to_pvd.py --order 1 --res 16 --variation base```
+To export the xdmf files generated from a run of the base model with CG1 polynomials and a resolution of 16. 
 ## Legacy folder
 This folder contains all code used for simulation and postprocessing in my master's thesis "Normal Pressure With Abnormal Geometry: A Biomechanical Model of Normal Pressure Hydrocephalus During Infusion Tests"
 The script used to run simulations is in the Main file folder. All scripts for making graphs and posprocessing of data in the postprocessing folder, and analysis scripts in the sensitivity folder.
