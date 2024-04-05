@@ -9,9 +9,10 @@ import argparse
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-out", "--output_directory_name", type=str, default="base_case")
 parser.add_argument("--order", type=int, default=1)
 parser.add_argument("--variation", type=str, default="base")
+parser.add_argument("-res", "--resolution", type=int, default=16)
+parser.add_argument("--xdmf", type=int, default=0)
 args = parser.parse_args()
 case = args.variation
 
@@ -34,10 +35,10 @@ else:
 T = 4200
 dt = 20
 patient = "C0"
-res = 32
+res = args.resolution
 
 order = args.order
-xdmf = False
+xdmf = args.xdmf
 main_dir = f"results/{patient}/"
 if case.lower() == "base":
     out_dir_names = [main_dir + case.lower() + "/"]
@@ -53,10 +54,9 @@ elif case.lower() == "var4":
 elif case.lower() == "var5":
     out_dir_names = [f"results/{patient}/base/", f"results/{patient}/high_kECS/", f"results/{patient}/very_high_kECS/"]
 
-try:
+if not os.path.isdir("results/"):
+    os.system("mkdir results")
     os.system(f"mkdir {main_dir}")
-except:
-    pass
 
 parameters["krylov_solver"]["maximum_iterations"] = 5000
 parameters["krylov_solver"]["monitor_convergence"] = True
@@ -75,7 +75,6 @@ hdf.read(bnd, "/boundaries")
 ds = Measure('ds')(subdomain_data=bnd)
 dS = Measure('dS')(subdomain_data=bnd)
 dx = Measure('dx')(subdomain_data=SD)
-os.system(f'echo "File read" >> log_{patient}.txt')
 
 #List of measures to circumvent FEniCS integration bug
 dxs = [dx(domain=mesh, subdomain_data=SD, subdomain_id=i) for i in range(1,4)]
@@ -246,7 +245,7 @@ for i_, var_dir in enumerate(out_dir_names):
               [w_a_v, w_c_v, 0, w_v_pa, w_v_pc, w_pv_v, w_e_v],
               [w_pa_a, w_c_pa, w_v_pa, 0, w_pa_pc, w_pa_pv, w_pa_e[i_]],
               [w_a_pc, w_pc_c[i_], w_v_pc, w_pa_pc, 0, w_pc_pv, w_pc_e[i_]],
-              [w_a_pv, w_c_pv, w_pv_v, w_pa_pv, w_pc_pv[i_], 0, w_pv_e[i_]],
+              [w_a_pv, w_c_pv, w_pv_v, w_pa_pv, w_pc_pv, 0, w_pv_e[i_]],
               [w_e_a, w_c_e, w_e_v, w_pa_e[i_], w_pc_e[i_], w_pv_e[i_], 0]])
     # Initial condition
     p_1 = interpolate(Expression(("80*133.322", "20*133.322", "10*133.322", "10.2*133.322", "9.2*133.322", "9.2*133.322", "9.2*133.322"), degree=1), V)
