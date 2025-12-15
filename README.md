@@ -1,6 +1,7 @@
 # MPET model of infusion test in the human brain
 This directory contains the code and algorithm used to conduct simulations in the article _Modeling CSF circulation and the glymphatic system during infusion using subject specific intracranial pressures and brain geometries_ (DOI tbd). 
 All simulations performed, with the exception of the subject specific data, can be performed by running the script ```MPET_brain.py```. This script reads the mesh in ```meshes/C0``` and writes all data to a ```results``` folder which is generation in runtime. The mesh in the repo is of a lower resolution than used in the article, but a higher resolution mesh can be found at: https://drive.proton.me/urls/ADJQJRPBMM#Jt2WoC4F6CzD
+The script uses the Legacy Fenics module, whose installation instructions can be found [here!](https://fenicsproject.org/download/archive/)
 
 ## Command line arguments for the MPET_brain script. 
 - ```--order```, gives an integer specifying the order of the CG polynomials to be used in the Finite Element Analysis
